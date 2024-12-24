@@ -1,0 +1,10 @@
+[Shortcuts]
+KisToolSelectOutline=L
+clear=Del; Ctrl+Alt+Shift+C
+deselect=Ctrl+D
+file_export_file=Ctrl+Alt+Shift+S
+make_brush_color_lighter=none
+movetool-show-coordinates=none
+undo_polygon_selection=none
+view_zoom_in=Ctrl++; Shift+Z
+view_zoom_out=Ctrl+-; Alt+Z
