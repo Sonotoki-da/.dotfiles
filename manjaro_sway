@@ -2,7 +2,9 @@
 
 for folder in `ls -d */`
 do
-    echo "stow $folder"
+    echo "unstow $folder"
     stow -D $folder
+
+    echo "stow $folder"
     stow $folder
 done
