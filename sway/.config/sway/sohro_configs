@@ -1,3 +1,5 @@
+bindsym --no-warn $mod+Return exec ghostty
+
 bindsym Ctrl+apostrophe exec "wtype -d 1000 'ʻ'"
 bindsym Alt+apostrophe exec "wtype -d 1000 'ʼ'"
 
