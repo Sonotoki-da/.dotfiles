@@ -16,3 +16,4 @@ for_window [app_id="^smsearch$"] floating enable, border none, resize set width 
 
 exec_always fcitx5 -d --replace
 
+bindsym $mod+m output "HDMI-A-1" power toggle
