@@ -6,7 +6,7 @@ bindsym Alt+apostrophe exec "wtype -d 1000 'ʼ'"
 bindsym Alt+Shift+f exec firefox
 bindsym Alt+Shift+t exec telegram-desktop
 
-output HDMI-A-1 resolution 1920x1080@180Hz position 0,0
+output DP-3 resolution 1920x1080@180Hz position 0,0
 exec ~/.local/scripts/load_virtual_mic.sh
 
 bindsym $mod+Shift+s exec alacritty --class 'smsearch' --command bash -c '~/scripts/fzfsnip.sh | xargs -r swaymsg -t command exec'
@@ -16,4 +16,4 @@ for_window [app_id="^smsearch$"] floating enable, border none, resize set width 
 
 exec_always fcitx5 -d --replace
 
-bindsym $mod+m output "HDMI-A-1" power toggle
+bindsym $mod+m output "DP-3" power toggle
