@@ -291,6 +291,8 @@ bindsym $mod+p exec --no-startup-id /usr/local/bin/switch-audio-port
 ## App shortcuts
 bindsym Mod1+Shift+f exec --no-startup-id /usr/bin/firefox
 bindsym Mod1+Shift+t exec --no-startup-id /usr/bin/telegram-desktop
+bindsym Print exec --no-startup-id /usr/bin/flameshot gui
+bindsym Shift+Print exec --no-startup-id /usr/bin/flameshot screen --clipboard && notify-send "The screenshot saved to the clipboard"
 
 # Power Profiles menu switcher (rofi)
 bindsym $mod+Shift+p exec --no-startup-id ~/.config/i3/scripts/power-profiles
