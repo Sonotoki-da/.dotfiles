@@ -172,7 +172,7 @@ bindcode $mod+Shift+90 	 move container to workspace  $ws10
 ######################################
 
 # start a terminal
-bindsym $mod+Return exec --no-startup-id xfce4-terminal
+bindsym $mod+Return exec --no-startup-id ghostty
 
 # kill focused window
 bindsym $mod+q kill
@@ -184,7 +184,7 @@ bindsym $mod+Shift+e exec --no-startup-id ~/.config/i3/scripts/powermenu
 # lock with a picture:
 #bindsym $mod+l exec --no-startup-id i3lock -i  ~/.config/i3/i3-lock-screen.png -p default|win -t
 # lock by blurring the screen:
-bindsym $mod+l exec --no-startup-id ~/.config/i3/scripts/blur-lock
+# bindsym $mod+l exec --no-startup-id ~/.config/i3/scripts/blur-lock
 # lock in case after sleep
 exec --no-startup-id xss-lock -l ~/.config/i3/scripts/blur-lock
 
@@ -208,10 +208,10 @@ bindsym XF86MonBrightnessUp exec --no-startup-id ~/.config/i3/scripts/volume_bri
 bindsym XF86MonBrightnessDown exec --no-startup-id ~/.config/i3/scripts/volume_brightness.sh brightness_down
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+b focus up
-bindsym $mod+o focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -220,10 +220,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+b move up
-bindsym $mod+Shift+o move right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -232,7 +232,7 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+o split h
 
 # split in vertical orientation
 bindsym $mod+v split v
@@ -289,9 +289,8 @@ bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 bindsym $mod+p exec --no-startup-id /usr/local/bin/switch-audio-port
 
 ## App shortcuts
-bindsym $mod+w exec --no-startup-id /usr/bin/firefox
-bindsym $mod+n exec --no-startup-id /usr/bin/thunar
-bindsym Print exec --no-startup-id scrot ~/%Y-%m-%d-%T-screenshot.png && notify-send "Screenshot saved to ~/$(date +"%Y-%m-%d-%T")-screenshot.png"
+bindsym Mod1+Shift+f exec --no-startup-id /usr/bin/firefox
+bindsym Mod1+Shift+t exec --no-startup-id /usr/bin/telegram-desktop
 
 # Power Profiles menu switcher (rofi)
 bindsym $mod+Shift+p exec --no-startup-id ~/.config/i3/scripts/power-profiles
@@ -302,11 +301,11 @@ bindsym $mod+Shift+p exec --no-startup-id ~/.config/i3/scripts/power-profiles
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1:"
-set $ws2 "2:"
-set $ws3 "3:"
-set $ws4 "4:"
-set $ws5 "5:"
+set $ws1 "1:"
+set $ws2 "2:"
+set $ws3 "3:"
+set $ws4 "4"
+set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
@@ -321,20 +320,6 @@ set $ws10 "10"
 #workspace $ws3 output HDMI-0
 #workspace $ws4 output HDMI-0
 #workspace $ws5 output HDMI-0
-
-# bind program to workspace and focus to them on startup:
-assign [class="Xfce4-terminal"] $ws1
-assign [class="(?i)firefox"] $ws2
-assign [class="Thunar"] $ws3
-assign [class="thunderbird"] $ws4
-assign [class="TelegramDesktop"] $ws5
-
-# automatic set focus new window if it opens on another workspace than the current:
-for_window [class=Xfce4-terminal] focus
-for_window [class=(?i)firefox] focus
-for_window [class=Thunar] focus
-for_window [class=Thunderbird] focus
-for_window [class=TelegramDesktop] focus
 
 ##############
 # compositor #
@@ -432,8 +417,11 @@ exec --no-startup-id /usr/bin/dunst
 
 # Autostart apps as you like
 #exec --no-startup-id sleep 2 && xfce4-terminal
-exec --no-startup-id sleep 7 && firefox https://github.com/endeavouros-team/endeavouros-i3wm-setup/blob/main/force-knowledge.md
+# exec --no-startup-id sleep 7 && firefox https://github.com/endeavouros-team/endeavouros-i3wm-setup/blob/main/force-knowledge.md
 #exec --no-startup-id sleep 3 && thunar
+
+exec_always --no-startup-id /usr/bin/fcitx5 -d --replace
+exec --no-startup-id ~/.local/scripts/load_virtual_mic.sh
 
 ###############
 # system tray #
