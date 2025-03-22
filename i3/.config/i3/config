@@ -583,3 +583,5 @@ bindsym $mod+t exec --no-startup-id rofi -show window \
 #bindsym $mod+c exec --no-startup-id rofi -modi "clipboard:greenclip print" -show clipboard \
 #		-config ~/.config/rofi/rofidmenu.rasi
 
+bindsym --release Ctrl+apostrophe exec --no-startup-id xdotool type --clearmodifiers "ʻ"
+bindsym --release Mod1+apostrophe exec --no-startup-id xdotool type --clearmodifiers "ʼ"
