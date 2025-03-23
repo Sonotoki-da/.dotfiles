@@ -1,0 +1,10 @@
+# Main settings
+background-opacity = 0.85
+cursor-style-blink = false
+gtk-titlebar = false
+window-decoration = false
+window-inherit-working-directory = true
+
+# Mouse settings
+copy-on-select = true
+mouse-hide-while-typing = true
