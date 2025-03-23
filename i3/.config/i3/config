@@ -347,7 +347,7 @@ set $ws10 "10"
 # For modifications, it can be copied to ~/.config/picom/picom.conf or ~/.config/picom.conf
 # install picom package (yay -S picom)
 # start using default config 
-#exec_always --no-startup-id picom -b
+exec_always --no-startup-id picom
 #
 # for custom config:
 #exec_always --no-startup-id picom --config  ~/.config/picom.conf
