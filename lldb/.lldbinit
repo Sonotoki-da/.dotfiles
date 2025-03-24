@@ -1,0 +1,6 @@
+# https://github.com/ziglang/zig/blob/master/tools/lldb_pretty_printers.py
+command script import ~/lldb_pretty_printers.py
+
+type category enable zig.lang
+type category enable zig.std
+type category enable zig.stage2

@@ -55,5 +55,19 @@ return {
     vscode.json_decode = function(str)
       return vim.json.decode(json.json_strip_comments(str))
     end
+
+    -- CONFIGURATIONS
+    local dap = require("dap")
+    dap.configurations.zig = {
+      {
+        name = "Run Program",
+        type = "codelldb",
+        initCommands = { "command source ${env:HOME}/.lldbinit" },
+        request = "launch",
+        program = vim.fn.glob(vim.fn.getcwd() .. "/zig-out/bin/*"),
+        cwd = "${workspaceFolder}",
+        stopOnEntry = false,
+      },
+    }
   end,
 }
