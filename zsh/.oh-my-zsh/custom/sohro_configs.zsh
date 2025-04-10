@@ -8,6 +8,12 @@ alias hibernate="systemctl hibernate"
 alias zigdev="~/.zig/zig"
 
 md2docx() {
-    pandoc -t latex "$1" | pandoc -f latex --data-dir=docs/rendering/ -o "${2:-$(basename "$1" .md).docx}"
+    pandoc "$1" \
+        --from=markdown_strict \
+        --to=docx \
+        --wrap=none \
+        --markdown-headings=atx \
+        --data-dir=docs/rendering/ \
+        -o "${2:-$(basename "$1" .md).docx}"
 }
 export EDITOR=nvim
