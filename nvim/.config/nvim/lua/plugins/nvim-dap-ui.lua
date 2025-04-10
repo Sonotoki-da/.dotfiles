@@ -24,7 +24,7 @@ return {
     { "<leader>dj", function() require("dap").down() end, desc = "Down" },
     { "<leader>dk", function() require("dap").up() end, desc = "Up" },
     { "<leader>dl", function() require("dap").run_last() end, desc = "Run Last" },
-    { "<leader>do", function() require("dap").step_out() end, desc = "Step Out" },
+    { "<F12>", function() require("dap").step_out() end, desc = "Step Out" },
     { "<F10>", function() require("dap").step_over() end, desc = "Step Over" },
     { "<leader>dP", function() require("dap").pause() end, desc = "Pause" },
     { "<leader>dr", function() require("dap").repl.toggle() end, desc = "Toggle REPL" },
