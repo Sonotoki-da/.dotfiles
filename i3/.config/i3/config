@@ -50,6 +50,8 @@ workspace_layout default
 #border indicator on windows:
 new_window pixel 1
 
+for_window [all] border normal 0
+
 # thin borders
 # hide_edge_borders both
 
@@ -58,7 +60,7 @@ gaps inner 6
 gaps outer 3
 
 # show window title bars (not officially supported with i3gaps)
-#default_border normal
+# default_border pixel 12
 
 # window title alignment
 #title_align center
@@ -387,7 +389,7 @@ exec --no-startup-id ~/.screenlayout/monitor.sh
 # exec --no-startup-id sleep 2 && nitrogen --restore
 
 # https://x.com/AKEndfield/status/1741655482970890445
-exec_always --no-startup-id sleep 1 && feh --bg-fill ~/Pictures/GCldiqEaEAAxruc.jpg
+exec_always --no-startup-id sleep 1 && feh --bg-fill ~/Pictures/Gj9fSjYbEAAgfSh.jpg
 
 # set powersavings for display:
 exec --no-startup-id xset s 480 dpms 600 600 600
@@ -450,6 +452,7 @@ exec --no-startup-id ~/.local/scripts/load_virtual_mic.sh
 for_window [class="Yad" instance="yad"] floating enable
 for_window [class="Galculator" instance="galculator"] floating enable
 for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
+for_window [class="TelegramDesktop" title="Media viewer"] floating enable
 
 # set floating (nontiling) for special apps
 for_window [class="Xsane" instance="xsane"] floating enable
@@ -587,3 +590,5 @@ bindsym $mod+t exec --no-startup-id rofi -show window \
 
 bindsym --release Ctrl+apostrophe exec --no-startup-id xdotool type --delay 300 --clearmodifiers "ʻ"
 bindsym --release Mod1+apostrophe exec --no-startup-id xdotool type --delay 300 --clearmodifiers "ʼ"
+
+exec --no-startup-id xset r rate 300 50

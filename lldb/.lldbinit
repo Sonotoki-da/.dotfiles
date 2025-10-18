@@ -1,9 +1,7 @@
-# https://github.com/ziglang/zig/blob/master/tools/lldb_pretty_printers.py
-command script import ~/lldb_pretty_printers.py
+# settings set target.max-string-summary-length 0
+# settings set target.max-children-count 8196
+command script import ~/.local/scripts/xu.py
 
-type category enable zig.lang
-type category enable zig.std
-type category enable zig.stage2
+settings set stop-line-count-before 10
+settings set stop-line-count-after 10
 
-settings set target.max-string-summary-length 0
-settings set target.max-children-count 8196
