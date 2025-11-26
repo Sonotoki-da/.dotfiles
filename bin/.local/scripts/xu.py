@@ -70,7 +70,7 @@ def cmd_xu(debugger, command, result, _dict):
             print("Length evaluated to zero")
             return
 
-    # READ full slice without offset so we can slice by codepoints later
+    # READ full slice
     max_bytes = max_elems * elem_size if max_elems is not None else None
 
     buffer = bytearray()
@@ -97,7 +97,7 @@ def cmd_xu(debugger, command, result, _dict):
         if len(data) < to_read:
             break
 
-    # stop at null terminator for any encoding
+    # --- 1. Find Null Terminator ---
     null_pos = None
     if encoding == "utf-8":
         try:
@@ -106,7 +106,8 @@ def cmd_xu(debugger, command, result, _dict):
             pass
     elif encoding == "utf-16-le":
         for i in range(0, len(buffer) - 3, 2):
-            # detect *double* null pair (= true end of sentinel)
+            # Conservative check: look for double null (sentinel safety) 
+            # or just end of string if the buffer ends.
             if (
                 buffer[i] == 0
                 and buffer[i + 1] == 0
@@ -121,13 +122,51 @@ def cmd_xu(debugger, command, result, _dict):
                 null_pos = i
                 break
 
+    # --- 2. Find Zig Debug Garbage (0xAA) ---
+    # Zig initializes undefined memory to 0xAA. We cut scanning here to avoid
+    # printing pages of garbled "Undefined" text.
+    garbage_pos = None
+    
+    if encoding == "utf-8":
+        # Look for 0xAA. Note: In valid UTF-8, 0xAA is a continuation byte (10xxxxxx).
+        # However, 0xAA can never be the *first* byte of a character.
+        # If we find 0xAA where a char start is expected, or just a raw 0xAA in a buffer 
+        # that is mostly ASCII, it is likely the Zig pattern. 
+        # To be safe, we usually look for the repeating pattern, but finding the first 
+        # is usually what we want for "undefined" memory.
+        try:
+            garbage_pos = buffer.index(0xAA)
+        except ValueError:
+            pass
+            
+    elif encoding == "utf-16-le":
+        # Look for u16(0xAAAA) => bytes: AA AA
+        for i in range(0, len(buffer) - 1, 2):
+            if buffer[i] == 0xAA and buffer[i+1] == 0xAA:
+                garbage_pos = i
+                break
+
+    elif encoding == "utf-32-le":
+        # Look for u32(0xAAAAAAAA) => bytes: AA AA AA AA
+        for i in range(0, len(buffer) - 3, 4):
+            if (buffer[i] == 0xAA and buffer[i+1] == 0xAA 
+                and buffer[i+2] == 0xAA and buffer[i+3] == 0xAA):
+                garbage_pos = i
+                break
+
+    # --- 3. Determine Cutoff ---
+    # We stop at the *earliest* of the null terminator or the garbage pattern
+    cutoff = len(buffer)
+    
     if null_pos is not None:
-        buffer = buffer[:null_pos]
+        cutoff = min(cutoff, null_pos)
+    
+    if garbage_pos is not None:
+        cutoff = min(cutoff, garbage_pos)
 
-    # decode safely (trim stray nulls at end to prevent “�”)
-    while buffer and buffer[-1] == 0:
-        buffer.pop()
+    buffer = buffer[:cutoff]
 
+    # Decode safely
     try:
         decoded_str = buffer.decode(encoding, errors="replace")
     except Exception:
@@ -160,7 +199,7 @@ def get_data(val, target):
     # 2. Normal arrays
     if val_type.IsArrayType():
         elem_type = val_type.GetArrayElementType()
-        max_elems = val_type.GetNumberOfElements()
+        max_elems = val.GetNumChildren()
         arr_addr = val.GetAddress()
         if arr_addr.IsValid():
             addr = arr_addr.GetLoadAddress(target)
@@ -173,7 +212,7 @@ def get_data(val, target):
         elem_type = pointee_type
         return val.GetValueAsUnsigned(), elem_type, None
 
-    # 4. Handle Zig synthetic slices (e.g. "[]u16", "[:0]u16", "[:sentinel]T", "[]align(2) u8")
+    # 4. Handle Zig synthetic slices
     if (
         type_name.startswith("[]")
         or type_name.startswith("[:")
@@ -186,7 +225,6 @@ def get_data(val, target):
             first_child = val.GetChildAtIndex(0)
             if first_child.IsValid():
                 elem_type = first_child.GetType()
-                # The first child's address — start of array
                 first_addr = first_child.GetAddress()
                 if not first_addr.IsValid():
                     return None, None, None
